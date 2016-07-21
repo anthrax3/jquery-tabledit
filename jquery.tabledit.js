@@ -369,7 +369,13 @@ if (typeof jQuery === 'undefined') {
          */
         function ajax(action)
         {
-            var serialize = $table.find('.tabledit-input').serialize() + '&action=' + action;
+            var serialize = $table.find('.tabledit-input').serialize()
+
+            if (!serialize) {
+                return false;
+            }
+
+            serialize += '&action=' + action;
 
             var result = settings.onAjax(action, serialize);
 
@@ -541,7 +547,7 @@ if (typeof jQuery === 'undefined') {
             /**
              * Change event when input is a select element.
              */
-            $table.on('change', 'select.tabledit-input:visible', function() {
+            $table.on('change', 'select.tabledit-input:visible', function(event) {
                 if (event.handled !== true) {
                     // Submit and update the column.
                     Edit.submit($(this).parent('td'));
